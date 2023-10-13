@@ -1,0 +1,30 @@
+class Item(GameSprite):
+    def __init__(self, player_image,player_x, player_y, player_speed):
+       super().__init__()
+      
+       self.image = transform.scale(image.load(player_image), (65, 65))
+       self.rect = self.image.get_rect()
+       self.rect.x = player_x
+       self.rect.y = player_y
+       self.speed = player_speed
+       self.timer = 10*60
+       
+
+    def reset(self):
+       window.blit(self.image, (self.rect.x, self.rect.y))
+        
+    def update(self):
+        self.timer -= 1
+        if self.timer <= 0:
+            self.kill()
+chest = Item('chest.png', randint(20, win_width - 20), randint(20,win_height -20),0)
+all_items = pygame.sprite.Group()
+all_items.update()
+all_items.reset()
+if pygame.time.get_ticks() % 600 == 0:
+           new_item = Item()
+           all_items.add(new_item)
+       for item in all_items:
+            if player.colliderect(item.rect):
+                item.kill()
+                score += 1
